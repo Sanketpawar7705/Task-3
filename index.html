@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blogging Platform</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Blogging Platform</h1>
+  </header>
+  <main>
+    <section id="posts">
+      <!-- Posts will be dynamically loaded here -->
+    </section>
+    <section id="create-post">
+      <h2>Create a New Post</h2>
+      <form id="post-form">
+        <input type="text" id="title" placeholder="Title" required>
+        <textarea id="content" placeholder="Content" required></textarea>
+        <button type="submit">Create Post</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Blogging Platform. All rights reserved.</p>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const postForm = document.getElementById('post-form');
+
+      postForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+
+        const response = await fetch('/posts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ title, content, author: 'User ID' }), // Replace 'User ID' with actual user ID
+        });
+
+        const post = await response.json();
+        alert(`Post created: ${post.title}`);
+        // Optionally reload the posts
+      });
+
